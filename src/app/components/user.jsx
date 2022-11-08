@@ -3,32 +3,33 @@ import PropTypes from "prop-types";
 import Qualitie from "./qualitie";
 import BookMark from "./bookmark";
 
-const User = ({ user, onDelete, onClick, ...rest }) => {
+const User = ({
+  _id,
+  name,
+  qualities,
+  profession,
+  completedMeetings,
+  rate,
+  onDelete,
+  bookmark,
+  onToggleBookMark
+}) => {
   return (
-    <tr key={user._id}>
-      <td>{user.name}</td>
+    <tr>
+      <td>{name}</td>
       <td>
-        {user.qualities.map((qual) => {
-          return (
-            <Qualitie key={qual._id} color={qual.color} name={qual.name} />
-          );
-        })}
+        {qualities.map((qual) => (
+          <Qualitie {...qual} key={qual._id} />
+        ))}
       </td>
-      <td>{user.profession.name}</td>
-      <td>{user.completedMeetings}</td>
-      <td>{user.rate}</td>
+      <td>{profession.name}</td>
+      <td>{completedMeetings}</td>
+      <td>{rate} /5</td>
       <td>
-        <BookMark
-          bookmark={user.bookmark}
-          userId={user._id}
-          onClick={onClick}
-        />
+        <BookMark status={bookmark} onClick={() => onToggleBookMark(_id)} />
       </td>
       <td>
-        <button
-          className="btn btn-danger btn-sm m-2"
-          onClick={() => onDelete(user._id)}
-        >
+        <button className="btn btn-danger" onClick={() => onDelete(_id)}>
           delete
         </button>
       </td>
@@ -37,9 +38,15 @@ const User = ({ user, onDelete, onClick, ...rest }) => {
 };
 
 User.propTypes = {
-  user: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired
+  _id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  qualities: PropTypes.array,
+  profession: PropTypes.object.isRequired,
+  completedMeetings: PropTypes.number.isRequired,
+  rate: PropTypes.number.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  bookmark: PropTypes.bool,
+  onToggleBookMark: PropTypes.func.isRequired
 };
 
 export default User;
