@@ -2,17 +2,40 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { paginate } from "../utils/paginate";
 import Pagination from "./pagination";
-import User from "./user";
 import api from "../api";
 import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
+import UserTable from "./usersTable";
+import _ from "lodash";
 
-const Users = ({ users: allUsers, ...rest }) => {
+const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
+  const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
+  const pageSize = 8;
 
-  const pageSize = 2;
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    api.users.fetchAll().then((data) => setUsers(data));
+  }, []);
+
+  const handleDelete = (userId) => {
+    setUsers(users.filter((user) => userId !== user._id));
+  };
+
+  const handleToogleBookMark = (id) => {
+    setUsers(
+      users.map((user) => {
+        if (user._id === id) {
+          return { ...user, bookmark: !user.bookmark };
+        }
+        return user;
+      })
+    );
+  };
+
   useEffect(() => {
     api.professions.fetchAll().then((data) => setProfessions(data));
   }, []);
@@ -28,11 +51,17 @@ const Users = ({ users: allUsers, ...rest }) => {
     setCurrentPage(pageIndex);
   };
 
+  const handleSort = (item) => {
+    setSortBy(item);
+  };
+
   const filteredUsers = selectedProf
-    ? allUsers.filter((user) => user.profession === selectedProf)
-    : allUsers;
+    ? users.filter((user) => user.profession === selectedProf)
+    : users;
+
   const count = filteredUsers.length;
-  const userCrop = paginate(filteredUsers, currentPage, pageSize); // чтобы не прописывать import, просто вызываем paginate
+  const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
+  const userCrop = paginate(sortedUsers, currentPage, pageSize); // чтобы не прописывать import, просто вызываем paginate
 
   const clearFilter = () => {
     setSelectedProf();
@@ -55,24 +84,13 @@ const Users = ({ users: allUsers, ...rest }) => {
       <div className="d-flex flex-column">
         <SearchStatus length={count} />
         {count > 0 && (
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Имя</th>
-                <th scope="col">Качества</th>
-                <th scope="col">Провфессия</th>
-                <th scope="col">Встретился, раз</th>
-                <th scope="col">Оценка</th>
-                <th scope="col">Избранное</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {userCrop.map((user) => (
-                <User {...rest} {...user} key={user._id} />
-              ))}
-            </tbody>
-          </table>
+          <UserTable
+            users={userCrop}
+            onSort={handleSort}
+            selectedSort={sortBy}
+            onDelete={handleDelete}
+            onToggleBookMark={handleToogleBookMark}
+          />
         )}
         <div className="d-flex justify-content-center">
           <Pagination
