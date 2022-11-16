@@ -18,5 +18,6 @@ module.exports = {
     ],
     semi: [2, "always"],
     quotes: ["error", "double", { allowTemplateLiterals: true }],
+    "no-new": 1,
   },
 }
