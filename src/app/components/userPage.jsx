@@ -1,42 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 import api from "../api";
 import QualitiesList from "./qualitiesList";
+import { useHistory } from "react-router-dom";
 
-const UserPage = () => {
+const UserPage = ({ userId }) => {
   const history = useHistory();
-  const params = useParams();
-
   const [user, setUser] = useState();
   useEffect(() => {
-    api.users.getById(params.userId).then((data) => setUser(data));
+    api.users.getById(userId).then((data) => setUser(data));
   }, []);
-  console.log(user);
-
   const handleSave = () => {
-    history.replace("/users");
+    history.push("/users");
   };
   if (user) {
     return (
       <>
         <h1>{user.name}</h1>
-        <h2>{`Профессия: ${user.profession.name}`}</h2>
-        <h6>
-          <QualitiesList qualities={user.qualities} />
-        </h6>
-        <h6>{`completedMeetings: ${user.completedMeetings}`}</h6>
-        <h1>{`Rate: ${user.rate}`}</h1>
-        <button
-          onClick={() => {
-            handleSave();
-          }}
-        >
-          Все Пользователи
-        </button>
+        <h2>Профессия: {user.profession.name}</h2>
+        <QualitiesList qualities={user.qualities} />
+        <p>CompletedMeetings: {user.completedMeetings}</p>
+        <h2>Rate: {user.rate}</h2>
+        <button onClick={handleSave}>Все Пользователи</button>
       </>
     );
+  } else {
+    return <h1>Loading</h1>;
   }
-  return <h1>{"Loading"}</h1>;
+};
+
+UserPage.propTypes = {
+  userId: PropTypes.string.isRequired
 };
 
 export default UserPage;
