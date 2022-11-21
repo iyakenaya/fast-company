@@ -10,7 +10,6 @@ const UserPage = ({ userId }) => {
   useEffect(() => {
     api.users.getById(userId).then((data) => setUser(data));
   }, []);
-
   const handleSave = () => {
     history.push("/users");
   };
