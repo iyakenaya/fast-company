@@ -17,7 +17,7 @@ const CheckBoxField = ({ name, value, onChange, children, error }) => {
         id={name}
         onChange={handleChange}
       />
-      <label className="form-check-label" htmlFor="flexCheckDefault">
+      <label className="form-check-label" htmlFor={name}>
         {children}
       </label>
       {error && <div className="invalid-feedback">{error}</div>}
