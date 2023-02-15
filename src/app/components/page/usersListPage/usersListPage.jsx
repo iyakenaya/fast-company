@@ -7,7 +7,7 @@ import GroupList from "../../common/groupList";
 import SearchStatus from "../../ui/searchStatus";
 import UserTable from "../../ui/usersTable";
 import _ from "lodash";
-
+import { useUser } from "../../../hooks/useUsers";
 const UsersListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfessions] = useState();
@@ -16,13 +16,11 @@ const UsersListPage = () => {
   const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
   const pageSize = 8;
 
-  const [users, setUsers] = useState();
-  useEffect(() => {
-    api.users.fetchAll().then((data) => setUsers(data));
-  }, []);
+  const { users } = useUser();
 
   const handleDelete = (userId) => {
-    setUsers(users.filter((user) => userId !== user._id));
+    // setUsers(users.filter((user) => userId !== user._id));
+    console.log(userId);
   };
   const handleToogleBookMark = (id) => {
     const newArray = users.map((user) => {
@@ -31,7 +29,8 @@ const UsersListPage = () => {
       }
       return user;
     });
-    setUsers(newArray);
+    // setUsers(newArray);
+    console.log(newArray);
   };
 
   useEffect(() => {
@@ -46,7 +45,6 @@ const UsersListPage = () => {
     if (searchQuery !== "") setSearchQuery("");
     setSelectedProf(item);
   };
-
   const handleSearchQuery = ({ target }) => {
     setSelectedProf(undefined);
     setSearchQuery(target.value);
@@ -55,7 +53,6 @@ const UsersListPage = () => {
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex);
   };
-
   const handleSort = (item) => {
     setSortBy(item);
   };
