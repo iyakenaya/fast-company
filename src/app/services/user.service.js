@@ -6,6 +6,10 @@ const userService = {
   get: async () => {
     const req = await httpService.get(userEnpoint);
     return req.data;
+  },
+  create: async (payload) => {
+    const { data } = await httpService.put(userEnpoint + payload._id, payload);
+    return data;
   }
 };
 export default userService;
