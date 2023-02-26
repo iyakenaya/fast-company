@@ -4,8 +4,8 @@ const qualityEnpoint = "quality/";
 
 const qualityService = {
   fetchAll: async () => {
-    const req = await httpService.get(qualityEnpoint);
-    return req.data;
+    const { data } = await httpService.get(qualityEnpoint);
+    return data;
   }
 };
 export default qualityService;

@@ -4,8 +4,8 @@ const professionEnpoint = "profession/";
 
 const professionService = {
   get: async () => {
-    const req = await httpService.get(professionEnpoint);
-    return req.data;
+    const { data } = await httpService.get(professionEnpoint);
+    return data;
   }
 };
 export default professionService;

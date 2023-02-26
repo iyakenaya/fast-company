@@ -38,9 +38,11 @@ const LoginForm = () => {
     validate();
     const isValid = validate();
     if (!isValid) return;
-    history.push("/");
     try {
       await logIn(data);
+      history.push(
+        history.location.state ? history.location.state.from.pathname : "/"
+      );
     } catch (error) {
       setEnterError(error.message);
     }
@@ -49,14 +51,14 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <TextField
-        label="Email"
+        label="Электронная почта"
         name="email"
         value={data.email}
         onChange={handleChange}
         error={errors.email}
       />
       <TextField
-        label="Password"
+        label="Пароль"
         type="password"
         name="password"
         value={data.password}

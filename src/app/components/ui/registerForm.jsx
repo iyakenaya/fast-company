@@ -17,6 +17,7 @@ const RegisterForm = () => {
     password: "",
     profession: "",
     sex: "male",
+    name: "",
     qualities: [],
     licence: false
   });
@@ -37,6 +38,13 @@ const RegisterForm = () => {
     email: {
       isRequired: { message: "Электронная почта обязательна для заполнения" },
       isEmail: { message: "Email введен некорректно" }
+    },
+    name: {
+      isRequired: { message: "Имя обязательна для заполнения" },
+      min: {
+        message: "Имя должно состоять минимум из 3-х символов",
+        value: 3
+      }
     },
     password: {
       isRequired: { message: "Пароль обязательный для заполнения" },
@@ -75,7 +83,6 @@ const RegisterForm = () => {
     const isValid = validate();
     if (!isValid) return;
     const newData = { ...data, qualities: data.qualities.map((q) => q.value) };
-    console.log(newData);
     try {
       await signUp(newData);
       history.push("/");
@@ -86,14 +93,21 @@ const RegisterForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <TextField
-        label="Email"
+        label="Электронная почта"
         name="email"
         value={data.email}
         onChange={handleChange}
         error={errors.email}
       />
       <TextField
-        label="Password"
+        label="Имя"
+        name="name"
+        value={data.name}
+        onChange={handleChange}
+        error={errors.name}
+      />
+      <TextField
+        label="Пароль"
         type="password"
         name="password"
         value={data.password}
