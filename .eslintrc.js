@@ -18,7 +18,11 @@ module.exports = {
     ],
     "multiline-ternary": ["off"],
     semi: [2, "always"],
-    quotes: ["error", "double", { allowTemplateLiterals: true }],
+    quotes: [
+      "error",
+      "double",
+      { allowTemplateLiterals: true, avoidEscape: true },
+    ],
     "no-new": 1,
   },
 }
