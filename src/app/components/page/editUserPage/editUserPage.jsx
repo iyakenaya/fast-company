@@ -7,28 +7,33 @@ import MultiSelectField from "../../common/form/multiSelect";
 import BackHistoryButton from "../../common/backButton";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
-import { useProfessions } from "../../../hooks/useProfession";
 import { useSelector } from "react-redux";
 import {
   getQualities,
   getQualitiesLoadingStatus
 } from "../../../store/qualities";
+import {
+  getProfessions,
+  getProfessionsLoadingStatus
+} from "../../../store/professions";
 
 const EditUserPage = () => {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
   const { currentUser, updateUserData } = useAuth();
   const [data, setData] = useState();
-  const { professions, isLoading: professionsLoading } = useProfessions();
-  const qualities = useSelector(getQualities());
-  const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
   const [errors, setErrors] = useState({});
 
+  const qualities = useSelector(getQualities());
+  const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
+  const qualitiesList = qualities.map((q) => ({ label: q.name, value: q._id }));
+
+  const professions = useSelector(getProfessions());
+  const professionsLoading = useSelector(getProfessionsLoadingStatus());
   const professionsList = professions.map((p) => ({
     label: p.name,
     value: p._id
   }));
-  const qualitiesList = qualities.map((q) => ({ label: q.name, value: q._id }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
