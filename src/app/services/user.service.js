@@ -19,7 +19,6 @@ const userService = {
     return data;
   },
   update: async (payload) => {
-    // не post потому что нужно будет в useAuth изначально добавлять данные которые уже есть иначе сотрутся данные которые мы не обновляем
     const { data } = await httpService.patch(
       userEnpoint + localStorageService.getUserId(),
       payload
