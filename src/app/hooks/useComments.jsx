@@ -18,7 +18,6 @@ export const CommentsProvider = ({ children }) => {
   const [isLoading, setLoading] = useState(true);
   const [comments, setComments] = useState([]);
   const [error, setError] = useState(null);
-  // const { currentUser } = useAuth();
   const currentUserId = useSelector(getCurrentUserId());
   useEffect(() => {
     getComments();

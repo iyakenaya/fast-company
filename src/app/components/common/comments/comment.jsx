@@ -10,7 +10,6 @@ const Comment = ({
   userId,
   onRemove
 }) => {
-  // const { currentUser } = useAuth();
   const currentUserId = useSelector(getCurrentUserId());
   const user = useSelector(getUserById(userId));
   return (

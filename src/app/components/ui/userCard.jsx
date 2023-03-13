@@ -4,8 +4,6 @@ import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getCurrentUserId } from "../../store/users";
 const UserCard = ({ user }) => {
-  // const { currentUser } = useAuth();
-  // const currentUser = useSelector(getCurrentUserData()); // можно так, а можно получить просто id(ниже)
   const currentUserId = useSelector(getCurrentUserId());
   const history = useHistory();
   const handleClick = () => {

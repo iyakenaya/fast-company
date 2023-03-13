@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { getCurrentUserData } from "../../store/users";
 
 const NavProfile = () => {
-  // const { currentUser } = useAuth();
   const currentUser = useSelector(getCurrentUserData());
   const [isOpen, setOpen] = useState(false);
   const toggleMenu = () => {

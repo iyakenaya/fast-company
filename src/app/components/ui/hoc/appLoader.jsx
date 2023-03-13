@@ -20,7 +20,6 @@ const AppLoader = ({ children }) => {
       dispatch(loadUsersList());
     }
   }, [isLoggedIn]);
-  // Когда заходим на путь users не авторизованными у нас запрашиваются  поль-ли, а если просто заходим(logIn) то нет, поэтому в момент appLoader’а, делаем зависимость под isLoggedIn
   if (usersStatusLoading) return "Loading...";
   return children;
 };
