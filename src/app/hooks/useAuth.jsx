@@ -7,6 +7,7 @@ import localStorageService, {
   setTokens
 } from "../services/localStorage.service";
 import { useHistory } from "react-router-dom";
+import getRandomInt from "../utils/getRandomInt";
 
 export const httpAuth = axios.create({
   baseURL: "https://identitytoolkit.googleapis.com/v1/",
@@ -53,10 +54,6 @@ const AuthProvider = ({ children }) => {
     history.push("/");
   }
 
-  function randomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
-
   async function updateUserData(data) {
     try {
       const { content } = await userService.update(data);
@@ -77,8 +74,8 @@ const AuthProvider = ({ children }) => {
       await createUser({
         _id: data.localId,
         email,
-        rate: randomInt(0, 5),
-        completedMeetings: randomInt(0, 200),
+        rate: getRandomInt(0, 5),
+        completedMeetings: getRandomInt(0, 200),
         image: `https://avatars.dicebear.com/api/avataaars/${(Math.random() + 1)
           .toString(36)
           .substring(7)}.svg`,
@@ -108,7 +105,7 @@ const AuthProvider = ({ children }) => {
     }
   }
 
-  async function getUserData(data) {
+  async function getUserData() {
     try {
       const { content } = await userService.getCurrentUser();
       setUser(content);
