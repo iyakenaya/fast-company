@@ -16,11 +16,13 @@ import {
   getProfessions,
   getProfessionsLoadingStatus
 } from "../../../store/professions";
+import { getCurrentUserData } from "../../../store/users";
 
 const EditUserPage = () => {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
-  const { currentUser, updateUserData } = useAuth();
+  const { updateUserData } = useAuth();
+  const currentUser = useSelector(getCurrentUserData());
   const [data, setData] = useState();
   const [errors, setErrors] = useState({});
 
@@ -111,6 +113,7 @@ const EditUserPage = () => {
     return Object.keys(errors).length === 0;
   };
   const isValid = Object.keys(errors).length === 0;
+
   return (
     <div className="container mt-5">
       <BackHistoryButton />
